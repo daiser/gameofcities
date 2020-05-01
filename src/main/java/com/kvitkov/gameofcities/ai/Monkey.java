@@ -21,7 +21,8 @@ public class Monkey extends PlayerBase implements Player {
         ArrayList<String> possibleMoves = new ArrayList<String>();
 
         for (String word : allWords) {
-            if (word.charAt(0) == firstLetter && !usedWords.contains(word)) possibleMoves.add(word);
+            if ((firstLetter == null || word.charAt(0) == firstLetter) && !usedWords.contains(word))
+                possibleMoves.add(word);
         }
         if (possibleMoves.size() == 0) throw new GiveUpException(this);
         return possibleMoves.get(generator.nextInt(possibleMoves.size()));

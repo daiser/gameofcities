@@ -6,6 +6,6 @@ import java.util.HashSet;
 
 public class TeDi extends HashSet<String> implements TemporaryDictionary {
     public boolean contains(String word) {
-        return this.contains(word);
+        return super.contains(word);
     }
 }

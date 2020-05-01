@@ -8,4 +8,9 @@ public class Utility {
             return getLastLetter(word.substring(0, word.length() - 1));
         return lastChar;
     }
+
+
+    public static String cleanUp(final String source) {
+        return source.trim().toUpperCase();
+    }
 }

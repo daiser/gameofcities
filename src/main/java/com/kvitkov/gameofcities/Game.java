@@ -27,7 +27,10 @@ public class Game implements com.kvitkov.gameofcities.contracts.Game {
             Player activePlayer = players[activePlayerIndex];
 
             if (!losers.contains(activePlayer)) {
-                if (losers.size() == players.length - 1) return activePlayer;
+                if (losers.size() == players.length - 1) {
+                    System.out.println("Moves:" + turn);
+                    return activePlayer;
+                }
                 try {
                     while (true) {
                         String word = activePlayer.takeTurn(lastLetter, allWords, usedWords);
@@ -46,6 +49,7 @@ public class Game implements com.kvitkov.gameofcities.contracts.Game {
                                 continue;
                             }
                         }
+                        System.out.println(activePlayer + ": " + cleanWord);
                         try {
                             lastLetter = Utility.getLastLetter(cleanWord);
                         } catch (IllegalStateException isx) {
@@ -58,6 +62,7 @@ public class Game implements com.kvitkov.gameofcities.contracts.Game {
                         break;
                     }
                 } catch (GiveUpException gux) {
+                    System.out.println(gux.player + ": gg");
                     losers.add(gux.player);
                 }
             }
