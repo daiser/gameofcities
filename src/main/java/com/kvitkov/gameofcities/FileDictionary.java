@@ -13,7 +13,7 @@ public class FileDictionary implements AllWords {
 
     public FileDictionary(String fileName) throws IOException {
         this.fileName = fileName;
-        this.words = new HashSet<String>();
+        this.words = new HashSet<>();
 
         BufferedReader br = new BufferedReader(new FileReader(fileName));
         for (String line; (line = br.readLine()) != null; ) {

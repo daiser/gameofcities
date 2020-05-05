@@ -2,7 +2,7 @@ package com.kvitkov.gameofcities;
 
 import com.kvitkov.gameofcities.contracts.AllWords;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 
 public class EmptyDictionary implements AllWords {
@@ -11,9 +11,8 @@ public class EmptyDictionary implements AllWords {
     }
 
 
-    @SuppressWarnings("RedundantOperationOnEmptyContainer")
     public Iterator<String> iterator() {
-        return new ArrayList<String>().iterator();
+        return Collections.emptyIterator();
     }
 
 

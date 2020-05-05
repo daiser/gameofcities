@@ -21,21 +21,9 @@ public class Monkey extends PlayerBase implements Ai {
     }
 
 
-    public String takeTurn(Character firstLetter, Dictionary allWords, Dictionary usedWords) throws GiveUpException {
-        ArrayList<String> possibleMoves = new ArrayList<String>();
-
-        for (String word : allWords) {
-            if ((firstLetter == null || word.charAt(0) == firstLetter) && !usedWords.contains(word))
-                possibleMoves.add(word);
-        }
-        if (possibleMoves.size() == 0) throw new GiveUpException(this);
-        return possibleMoves.get(generator.nextInt(possibleMoves.size()));
-    }
-
-
     @Override
     public String takeTurn(Character startsWith, UsedWords usedWords) throws GiveUpException {
-        ArrayList<String> possibleMoves = new ArrayList<String>();
+        ArrayList<String> possibleMoves = new ArrayList<>();
 
         for (String word : dictionary) {
             if ((startsWith == null || word.charAt(0) == startsWith) && !usedWords.contains(word))

@@ -18,7 +18,7 @@ public class Game implements com.kvitkov.gameofcities.contracts.Game {
     public Player play() {
         int turn = 0;
         Character lastLetter = null;
-        ArrayList<Player> losers = new ArrayList<Player>();
+        ArrayList<Player> losers = new ArrayList<>();
 
         while (true) {
             int activePlayerIndex = turn % players.length;
