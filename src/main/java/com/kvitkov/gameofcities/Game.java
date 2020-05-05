@@ -5,13 +5,11 @@ import com.kvitkov.gameofcities.contracts.*;
 import java.util.ArrayList;
 
 public class Game implements com.kvitkov.gameofcities.contracts.Game {
-    private final Dictionary allWords;
     private final UsedWords usedWords;
     private final Player[] players;
 
 
-    public Game(Dictionary allWords, Player... players) {
-        this.allWords = allWords;
+    public Game(Player... players) {
         this.players = players;
         this.usedWords = new TeDi();
     }
@@ -33,8 +31,14 @@ public class Game implements com.kvitkov.gameofcities.contracts.Game {
                 }
                 try {
                     while (true) {
-                        //String word = activePlayer.takeTurn(lastLetter, allWords, usedWords);
-                        String word = "activePlayer.takeTurn(lastLetter, allWords, usedWords)";
+                        String word;
+                        if (activePlayer instanceof Human) {
+                            Human humanPlayer = (Human) activePlayer;
+                            word = humanPlayer.takeTurn(lastLetter);
+                        } else {
+                            Ai aiPlayer = (Ai) activePlayer;
+                            word = aiPlayer.takeTurn(lastLetter, usedWords);
+                        }
                         String cleanWord = word.trim().toUpperCase();
                         if (lastLetter != null && cleanWord.charAt(0) != lastLetter) {
                             if (!(activePlayer instanceof Human)) {
@@ -62,9 +66,9 @@ public class Game implements com.kvitkov.gameofcities.contracts.Game {
                         }
                         break;
                     }
-                } catch (Exception gux) {
-//                    System.out.println(gux.player + ": gg");
-//                    losers.add(gux.player);
+                } catch (GiveUpException gux) {
+                    System.out.println(gux.player + ": gg");
+                    losers.add(gux.player);
                 }
             }
 

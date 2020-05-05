@@ -1,12 +1,12 @@
 package com.kvitkov.gameofcities;
 
-import com.kvitkov.gameofcities.contracts.AvailableWords;
+import com.kvitkov.gameofcities.contracts.AllWords;
 
 import java.io.*;
 import java.util.HashSet;
 import java.util.Iterator;
 
-public class FileDictionary implements AvailableWords {
+public class FileDictionary implements AllWords {
     private final String fileName;
     private final HashSet<String> words;
 

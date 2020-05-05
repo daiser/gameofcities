@@ -1,12 +1,11 @@
 package com.kvitkov.gameofcities;
 
-import com.kvitkov.gameofcities.contracts.AvailableWords;
+import com.kvitkov.gameofcities.contracts.AllWords;
 
-import javax.swing.*;
 import java.sql.*;
 import java.util.Iterator;
 
-public class DbDictionary implements AvailableWords {
+public class DbDictionary implements AllWords {
     private final Connection connection;
     private final PreparedStatement stContains;
     private final PreparedStatement stSave;

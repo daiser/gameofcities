@@ -1,7 +1,7 @@
 package com.kvitkov.gameofcities;
 
 import com.kvitkov.gameofcities.ai.Monkey;
-import com.kvitkov.gameofcities.contracts.Dictionary;
+import com.kvitkov.gameofcities.contracts.AllWords;
 import com.kvitkov.gameofcities.contracts.Player;
 
 import java.io.IOException;
@@ -11,9 +11,13 @@ public class Main {
     public static void main(String[] args) {
         Random rnd = new Random();
         try {
-            Dictionary allWords = new FileDictionary("s:\\tmp\\cities.txt");
+            AllWords allWords = new FileDictionary("s:\\tmp\\cities.txt");
 //            Dictionary allWords = new DbDictionary();
-            Game game = new Game(allWords, new Monkey(rnd), new Monkey(rnd), new Monkey(rnd), new Monkey(rnd));
+            Game game = new Game(
+                    new Monkey(rnd, allWords),
+                    new Monkey(rnd, allWords),
+                    new Monkey(rnd, allWords, 0.5),
+                    new Monkey(rnd, allWords));
 
             Player winner = game.play();
             System.out.println("GAME OVER!");
