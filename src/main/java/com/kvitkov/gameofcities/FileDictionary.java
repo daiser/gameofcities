@@ -1,14 +1,12 @@
 package com.kvitkov.gameofcities;
 
-import com.kvitkov.gameofcities.contracts.Dictionary;
+import com.kvitkov.gameofcities.contracts.AvailableWords;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.HashSet;
 import java.util.Iterator;
 
-public class FileDictionary implements Dictionary {
+public class FileDictionary implements AvailableWords {
     private final String fileName;
     private final HashSet<String> words;
 
@@ -34,5 +32,18 @@ public class FileDictionary implements Dictionary {
 
     public Iterator<String> iterator() {
         return words.iterator();
+    }
+
+
+    public void save(String newWord) {
+        if (contains(newWord)) return;
+        try {
+            BufferedWriter bw = new BufferedWriter(new FileWriter(fileName, true));
+            bw.write(newWord);
+            bw.newLine();
+            bw.close();
+        } catch (IOException iox) {
+            throw new RuntimeException("Не удалось сохранить слово", iox);
+        }
     }
 }

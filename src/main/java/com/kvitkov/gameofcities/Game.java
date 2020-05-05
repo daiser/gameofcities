@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class Game implements com.kvitkov.gameofcities.contracts.Game {
     private final Dictionary allWords;
-    private final TemporaryDictionary usedWords;
+    private final UsedWords usedWords;
     private final Player[] players;
 
 
@@ -33,17 +33,18 @@ public class Game implements com.kvitkov.gameofcities.contracts.Game {
                 }
                 try {
                     while (true) {
-                        String word = activePlayer.takeTurn(lastLetter, allWords, usedWords);
+                        //String word = activePlayer.takeTurn(lastLetter, allWords, usedWords);
+                        String word = "activePlayer.takeTurn(lastLetter, allWords, usedWords)";
                         String cleanWord = word.trim().toUpperCase();
                         if (lastLetter != null && cleanWord.charAt(0) != lastLetter) {
-                            if (!(activePlayer instanceof HumanPlayer)) {
+                            if (!(activePlayer instanceof Human)) {
                                 throw new IllegalStateException("Ai made incorrect move");
                             } else {
                                 continue;
                             }
                         }
                         if (!usedWords.add(cleanWord)) {
-                            if (!(activePlayer instanceof HumanPlayer)) {
+                            if (!(activePlayer instanceof Human)) {
                                 throw new IllegalStateException("Ai made incorrect move");
                             } else {
                                 continue;
@@ -53,7 +54,7 @@ public class Game implements com.kvitkov.gameofcities.contracts.Game {
                         try {
                             lastLetter = Utility.getLastLetter(cleanWord);
                         } catch (IllegalStateException isx) {
-                            if (!(activePlayer instanceof HumanPlayer)) {
+                            if (!(activePlayer instanceof Human)) {
                                 throw new IllegalStateException("Ai told invalid word");
                             } else {
                                 continue;
@@ -61,9 +62,9 @@ public class Game implements com.kvitkov.gameofcities.contracts.Game {
                         }
                         break;
                     }
-                } catch (GiveUpException gux) {
-                    System.out.println(gux.player + ": gg");
-                    losers.add(gux.player);
+                } catch (Exception gux) {
+//                    System.out.println(gux.player + ": gg");
+//                    losers.add(gux.player);
                 }
             }
 
