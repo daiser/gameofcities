@@ -1,12 +1,16 @@
 package com.kvitkov.gameofcities.ai;
 
+import com.kvitkov.gameofcities.IllegalMoveException;
 import com.kvitkov.gameofcities.PlayerBase;
-import com.kvitkov.gameofcities.contracts.*;
+import com.kvitkov.gameofcities.UsedWords;
+import com.kvitkov.gameofcities.contracts.AllWords;
+import com.kvitkov.gameofcities.contracts.GiveUpException;
+import com.kvitkov.gameofcities.contracts.Player;
 
 import java.util.ArrayList;
 import java.util.Random;
 
-public class Monkey extends PlayerBase implements Ai {
+public class Monkey extends PlayerBase implements Player {
     private final Random generator;
 
 
@@ -22,7 +26,7 @@ public class Monkey extends PlayerBase implements Ai {
 
 
     @Override
-    public String takeTurn(Character startsWith, UsedWords usedWords) throws GiveUpException {
+    public UsedWords.LegitMove takeTurn(Character startsWith, UsedWords usedWords) throws GiveUpException {
         ArrayList<String> possibleMoves = new ArrayList<>();
 
         for (String word : dictionary) {
@@ -30,7 +34,11 @@ public class Monkey extends PlayerBase implements Ai {
                 possibleMoves.add(word);
         }
         if (possibleMoves.size() == 0) throw new GiveUpException(this);
-        return possibleMoves.get(generator.nextInt(possibleMoves.size()));
+        try {
+            return usedWords.check(possibleMoves.get(generator.nextInt(possibleMoves.size())));
+        } catch (IllegalMoveException imx) {
+            throw new RuntimeException("Обезъяна сделала неправильный ход");
+        }
     }
 
 

@@ -43,11 +43,14 @@ public class DbDictionary implements AllWords {
 
             return new Iterator<String>() {
                 private String lastString = null;
+                private boolean nextFetched = false;
 
 
                 public boolean hasNext() {
                     try {
+                        if (nextFetched) return true;
                         if (rs.next()) {
+                            nextFetched = true;
                             lastString = rs.getString(1);
                             return true;
                         } else {
@@ -61,6 +64,7 @@ public class DbDictionary implements AllWords {
 
 
                 public String next() {
+                    nextFetched = false;
                     return lastString;
                 }
 

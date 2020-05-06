@@ -13,13 +13,11 @@ public class Main {
         try {
             AllWords allWords = new FileDictionary("s:\\tmp\\cities.txt");
 //            Dictionary allWords = new DbDictionary();
-            Game game = new Game(
-                    new Monkey(rnd, allWords),
-                    new Monkey(rnd, allWords),
-                    new Monkey(rnd, allWords, 0.5),
-                    new Monkey(rnd, allWords));
 
-            Player winner = game.play();
+            Player winner = new Game().play(new Monkey(rnd, allWords),
+                                            new Monkey(rnd, allWords),
+                                            new Monkey(rnd, allWords, 0.5),
+                                            new Monkey(rnd, allWords));
             System.out.println("GAME OVER!");
             System.out.println("Winner: " + winner);
         } catch (IOException iox) {
