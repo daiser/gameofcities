@@ -1,5 +1,7 @@
 package com.kvitkov.gameofcities;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.HashSet;
 
 public class UsedWords {
@@ -11,7 +13,8 @@ public class UsedWords {
     }
 
 
-    public boolean add(final LegitMove move) {
+    @SuppressWarnings("UnusedReturnValue")
+    public boolean add(@NotNull final LegitMove move) {
         return usedWords.add(move.value);
     }
 

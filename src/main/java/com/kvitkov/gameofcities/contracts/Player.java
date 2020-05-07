@@ -1,5 +1,6 @@
 package com.kvitkov.gameofcities.contracts;
 
+import com.kvitkov.gameofcities.GiveUpException;
 import com.kvitkov.gameofcities.UsedWords;
 
 public interface Player {

@@ -1,5 +1,6 @@
 package com.kvitkov.gameofcities;
 
+import com.kvitkov.gameofcities.ai.CasualPlayer;
 import com.kvitkov.gameofcities.ai.Monkey;
 import com.kvitkov.gameofcities.contracts.AllWords;
 import com.kvitkov.gameofcities.contracts.Player;
@@ -14,10 +15,9 @@ public class Main {
             AllWords allWords = new FileDictionary("s:\\tmp\\cities.txt");
 //            Dictionary allWords = new DbDictionary();
 
-            Player winner = new Game().play(new Monkey(rnd, allWords),
-                                            new Monkey(rnd, allWords),
-                                            new Monkey(rnd, allWords, 0.5),
-                                            new Monkey(rnd, allWords));
+            Player winner = new Game().play(new Monkey(rnd, allWords), new Monkey(rnd, allWords, .9),
+//                                            new Monkey(rnd, allWords, 0.5),
+                                            new Monkey(rnd, allWords), new CasualPlayer(rnd, allWords));
             System.out.println("GAME OVER!");
             System.out.println("Winner: " + winner);
         } catch (IOException iox) {
