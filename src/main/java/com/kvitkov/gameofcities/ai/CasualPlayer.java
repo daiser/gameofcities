@@ -25,19 +25,18 @@ public class CasualPlayer extends Monkey implements Player {
         ArrayList<String> allPossibleMoves = getPossibleMoves(firstLetter, usedWords);
         if (allPossibleMoves.size() == 0) throw new GiveUpException(this);
 
-        HashMap<Character, Integer> lastLetterScores = new HashMap<>();
+        HashMap<Character, Integer> letterScores = new HashMap<>();
         for (String possibleMove : allPossibleMoves) {
             char lastLetter = Utility.getLastLetter(possibleMove);
-            if (lastLetterScores.containsKey(lastLetter)) continue;
-            lastLetterScores.put(lastLetter,
-                                 getPossibleMoves(lastLetter, usedWords).size() -
-                                 (firstLetter.equals(lastLetter) ? 1 : 0));
-//            lastLetterScores.put(lastLetter, getPossibleMoves(lastLetter, usedWords).size());
+            if (letterScores.containsKey(lastLetter)) continue;
+            letterScores.put(lastLetter,
+                             getPossibleMoves(lastLetter, usedWords).size() - (firstLetter.equals(lastLetter) ? 1 : 0));
+//            letterScores.put(lastLetter, getPossibleMoves(lastLetter, usedWords).size());
         }
-        int bestScore = Collections.min(lastLetterScores.values());
+        int bestScore = Collections.min(letterScores.values());
 
         ArrayList<String> bestMoves = new ArrayList<>();
-        for (Map.Entry<Character, Integer> letterScore : lastLetterScores.entrySet()) {
+        for (Map.Entry<Character, Integer> letterScore : letterScores.entrySet()) {
             if (letterScore.getValue() != bestScore) continue;
             for (String possibleMove : allPossibleMoves) {
                 if (!letterScore.getKey().equals(Utility.getLastLetter(possibleMove))) continue;
