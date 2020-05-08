@@ -34,6 +34,9 @@ public class UsedWords {
     }
 
 
+    public int size() {return usedWords.size();}
+
+
     public static class LegitMove {
         public final String value;
         public final char nextLetter;

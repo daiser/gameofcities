@@ -25,7 +25,7 @@ public class Game implements com.kvitkov.gameofcities.contracts.Game {
 
             if (!losers.contains(activePlayer)) {
                 if (losers.size() == players.length - 1) {
-                    System.out.println("Moves:" + turn);
+                    System.out.println("Moves:" + usedWords.size());
                     return activePlayer;
                 }
                 try {

@@ -15,7 +15,7 @@ public class Main {
             AllWords allWords = new FileDictionary("s:\\tmp\\cities.txt");
 //            Dictionary allWords = new DbDictionary();
 
-            Player winner = new Game().play(new Monkey(rnd, allWords), new Monkey(rnd, allWords, .5),
+            Player winner = new Game().play(new Monkey(rnd, allWords), new Monkey(rnd, allWords, .9),
 //                                            new Monkey(rnd, allWords, 0.5),
                                             new Monkey(rnd, allWords), new CasualPlayer(rnd, allWords));
             System.out.println("GAME OVER!");
