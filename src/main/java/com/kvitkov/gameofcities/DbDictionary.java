@@ -1,11 +1,12 @@
 package com.kvitkov.gameofcities;
 
 import com.kvitkov.gameofcities.contracts.AllWords;
+import org.jetbrains.annotations.NotNull;
 
 import java.sql.*;
 import java.util.Iterator;
 
-public class DbDictionary implements AllWords {
+public class DbDictionary implements AllWords, AutoCloseable {
     private final Connection connection;
     private final PreparedStatement stContains;
     private final PreparedStatement stSave;
@@ -22,21 +23,27 @@ public class DbDictionary implements AllWords {
     }
 
 
+    @Override
+    public void close() throws Exception {
+        stSave.close();
+        stContains.close();
+    }
+
+
     public boolean contains(String word) {
         try {
             stContains.setString(1, word);
-            ResultSet rs = stContains.executeQuery();
-            rs.next();
-            boolean exists = rs.getBoolean(1);
-            rs.close();
-            return exists;
+            try (ResultSet rs = stContains.executeQuery()) {
+                rs.next();
+                return rs.getBoolean(1);
+            }
         } catch (SQLException sx) {
-            throw new RuntimeException("Не удалось выполнить запрос к БД", sx);
+            throw new DeveloperException(sx);
         }
     }
 
 
-    public Iterator<String> iterator() {
+    public @NotNull Iterator<String> iterator() {
         try {
             Statement st = connection.createStatement();
             final ResultSet rs = st.executeQuery("select item from words order by item;");
