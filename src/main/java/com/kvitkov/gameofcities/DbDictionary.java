@@ -30,9 +30,9 @@ public class DbDictionary implements AllWords, AutoCloseable {
     }
 
 
-    public boolean contains(String word) {
+    public boolean contains(Word word) {
         try {
-            stContains.setString(1, word);
+            stContains.setString(1, word.value);
             try (ResultSet rs = stContains.executeQuery()) {
                 rs.next();
                 return rs.getBoolean(1);
@@ -43,13 +43,13 @@ public class DbDictionary implements AllWords, AutoCloseable {
     }
 
 
-    public @NotNull Iterator<String> iterator() {
+    public @NotNull Iterator<Word> iterator() {
         try {
             Statement st = connection.createStatement();
             final ResultSet rs = st.executeQuery("select item from words order by item;");
 
-            return new Iterator<String>() {
-                private String lastString = null;
+            return new Iterator<Word>() {
+                private Word lastString = null;
                 private boolean nextFetched = false;
 
 
@@ -58,7 +58,7 @@ public class DbDictionary implements AllWords, AutoCloseable {
                         if (nextFetched) return true;
                         if (rs.next()) {
                             nextFetched = true;
-                            lastString = rs.getString(1);
+                            lastString = new Word(rs.getString(1));
                             return true;
                         } else {
                             lastString = null;
@@ -70,7 +70,7 @@ public class DbDictionary implements AllWords, AutoCloseable {
                 }
 
 
-                public String next() {
+                public Word next() {
                     nextFetched = false;
                     return lastString;
                 }
@@ -86,9 +86,9 @@ public class DbDictionary implements AllWords, AutoCloseable {
     }
 
 
-    public void save(String newWord) {
+    public void save(@NotNull Word newWord) {
         try {
-            stSave.setString(1, newWord);
+            stSave.setString(1, newWord.value);
             stSave.executeUpdate();
         } catch (SQLException sx) {
             if (sx.getErrorCode() == 19) return;

@@ -6,15 +6,15 @@ import java.util.Collections;
 import java.util.Iterator;
 
 public class EmptyDictionary implements AllWords {
-    public boolean contains(String word) {
+    public boolean contains(Word word) {
         return false;
     }
 
 
-    public Iterator<String> iterator() {
+    public Iterator<Word> iterator() {
         return Collections.emptyIterator();
     }
 
 
-    public void save(String newWord) {}
+    public void save(Word newWord) {}
 }

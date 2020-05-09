@@ -19,7 +19,7 @@ public abstract class PlayerBase implements Player {
 
     protected final int id;
     protected final double ability;
-    protected final List<String> dictionary;
+    protected final List<Word> dictionary;
 
 
     protected PlayerBase(final AllWords allWords, final double ability, Random rnd) {
@@ -31,8 +31,8 @@ public abstract class PlayerBase implements Player {
         this.id = id;
         this.ability = ability;
 
-        ArrayList<String> words = new ArrayList<>();
-        for (String word : allWords) words.add(word);
+        ArrayList<Word> words = new ArrayList<>();
+        for (Word word : allWords) words.add(word);
         Collections.shuffle(words, rnd);
 
         int n = (int) (words.size() * ability);

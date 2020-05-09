@@ -1,10 +1,7 @@
 package com.kvitkov.gameofcities.ai;
 
-import com.kvitkov.gameofcities.IllegalMoveException;
-import com.kvitkov.gameofcities.UsedWords;
-import com.kvitkov.gameofcities.Utility;
+import com.kvitkov.gameofcities.*;
 import com.kvitkov.gameofcities.contracts.AllWords;
-import com.kvitkov.gameofcities.GiveUpException;
 import com.kvitkov.gameofcities.contracts.Player;
 
 import java.util.*;
@@ -21,25 +18,27 @@ public class CasualPlayer extends Monkey implements Player {
 
 
     @Override
-    public UsedWords.LegitMove takeTurn(Character firstLetter, UsedWords usedWords) throws GiveUpException {
-        ArrayList<String> allPossibleMoves = getPossibleMoves(firstLetter, usedWords);
+    public UsedWords.LegitMove takeTurn(Character firstLetter, UsedWords usedWords, final int ignored) throws
+            GiveUpException {
+        List<Word> allPossibleMoves = getPossibleMoves(firstLetter, usedWords);
         if (allPossibleMoves.size() == 0) throw new GiveUpException(this);
 
         HashMap<Character, Integer> letterScores = new HashMap<>();
-        for (String possibleMove : allPossibleMoves) {
-            char lastLetter = Utility.getLastLetter(possibleMove);
+        for (Word possibleMove : allPossibleMoves) {
+            char lastLetter = possibleMove.last;
             if (letterScores.containsKey(lastLetter)) continue;
             letterScores.put(lastLetter,
-                             getPossibleMoves(lastLetter, usedWords).size() - (firstLetter.equals(lastLetter) ? 1 : 0));
+                             getPossibleMoves(lastLetter, usedWords).size() -
+                             (firstLetter != null && firstLetter.equals(lastLetter) ? 1 : 0));
 //            letterScores.put(lastLetter, getPossibleMoves(lastLetter, usedWords).size());
         }
         int bestScore = Collections.min(letterScores.values());
 
-        ArrayList<String> bestMoves = new ArrayList<>();
+        ArrayList<Word> bestMoves = new ArrayList<>();
         for (Map.Entry<Character, Integer> letterScore : letterScores.entrySet()) {
             if (letterScore.getValue() != bestScore) continue;
-            for (String possibleMove : allPossibleMoves) {
-                if (!letterScore.getKey().equals(Utility.getLastLetter(possibleMove))) continue;
+            for (Word possibleMove : allPossibleMoves) {
+                if (!letterScore.getKey().equals(possibleMove.last)) continue;
                 bestMoves.add(possibleMove);
             }
         }

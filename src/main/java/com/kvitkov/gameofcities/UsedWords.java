@@ -5,7 +5,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.HashSet;
 
 public class UsedWords {
-    private final HashSet<String> usedWords = new HashSet<>();
+    private final HashSet<Word> usedWords = new HashSet<>();
 
 
     public void clear() {
@@ -19,12 +19,12 @@ public class UsedWords {
     }
 
 
-    public boolean contains(final String word) {
+    public boolean contains(final Word word) {
         return usedWords.contains(word);
     }
 
 
-    public final LegitMove check(final String word) throws IllegalMoveException {
+    public final LegitMove check(@NotNull final Word word) throws IllegalMoveException {
         if (contains(word)) throw new WordAlreadyTakenException();
         try {
             return new LegitMove(word);
@@ -38,13 +38,13 @@ public class UsedWords {
 
 
     public static class LegitMove {
-        public final String value;
+        public final Word value;
         public final char nextLetter;
 
 
-        private LegitMove(final String value) {
+        private LegitMove(final Word value) {
             this.value = value;
-            this.nextLetter = Utility.getLastLetter(value);
+            this.nextLetter = value.last;
         }
     }
 }

@@ -1,5 +1,7 @@
 package com.kvitkov.gameofcities.contracts;
 
-public interface Dictionary extends Iterable<String> {
-    boolean contains(final String word);
+import com.kvitkov.gameofcities.Word;
+
+public interface Dictionary extends Iterable<Word> {
+    boolean contains(final Word word);
 }
