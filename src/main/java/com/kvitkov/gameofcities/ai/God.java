@@ -10,17 +10,20 @@ import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 
-public class Expert extends Monkey implements Player {
+/**
+ * Don't try this player if you're not immortal.
+ */
+public class God extends Monkey implements Player {
     private UsedWords usedWords;
 
 
-    public Expert(Random generator, AllWords words, final double ability) {
+    public God(Random generator, AllWords words, final double ability) {
         super(generator, words, ability);
     }
 
 
-    public Expert(Random generator, AllWords words) {
-        super(generator, words, 0.9);
+    public God(Random generator, AllWords words) {
+        this(generator, words, 1);
     }
 
 
@@ -34,12 +37,8 @@ public class Expert extends Monkey implements Player {
         ArrayList<Word> bestMoves = new ArrayList<>();
         double bestChance = .0;
 
-        float progress = 0;
-        int total = possibleMoves.size();
         for (Word word : possibleMoves) {
-            progress++;
             Node root = new Node(word, numberOfPlayers);
-            System.out.println(String.format("\nCalculating... %.1f%%", progress * 100 / total));
             root.climb();
             double chance = root.getChance();
             if (chance < bestChance) continue;
@@ -49,7 +48,6 @@ public class Expert extends Monkey implements Player {
             }
             bestMoves.add(word);
         }
-        System.out.println(String.format("\nBest chance %.1f%%", bestChance * 100));
         try {
             return usedWords.check(bestMoves.get(generator.nextInt(bestMoves.size())));
         } catch (IllegalMoveException imx) {
@@ -60,7 +58,7 @@ public class Expert extends Monkey implements Player {
 
     @Override
     public String toString() {
-        return "Expert#" + id;
+        return "God#" + id;
     }
 
 
@@ -74,7 +72,6 @@ public class Expert extends Monkey implements Player {
         private final int numberOfPlayers;
         private int leafs = 0;
         private int wins = 0;
-        private int minWinLevel = Integer.MAX_VALUE;
 
 
         Node(@NotNull final Word word, final int numberOfPlayers) {
@@ -97,11 +94,7 @@ public class Expert extends Monkey implements Player {
 
         void leaf(final int leafLevel) {
             leafs++;
-            if (leafLevel % numberOfPlayers == 0) {
-                wins++;
-                if (leafLevel < minWinLevel) minWinLevel = leafLevel;
-            }
-            if (leafs % 10 == 0) System.out.print("\rWL:" + wins + "/" + leafs);
+            if (leafLevel % numberOfPlayers == 0) wins++;
         }
 
 
@@ -119,7 +112,6 @@ public class Expert extends Monkey implements Player {
             if (moves.size() == 0) {
                 root.leaf(level);
             } else {
-                if (level == root.minWinLevel) return;
                 for (Word word : moves) {
                     new Node(word, this).climb();
                 }
@@ -128,6 +120,7 @@ public class Expert extends Monkey implements Player {
 
 
         double getChance() {
+            if (wins == 0) return .0;
             return (double) wins / leafs;
         }
     }

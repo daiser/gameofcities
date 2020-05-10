@@ -6,13 +6,13 @@ import com.kvitkov.gameofcities.contracts.Player;
 
 import java.util.*;
 
-public class CasualPlayer extends Monkey implements Player {
-    public CasualPlayer(Random generator, AllWords words, final double ability) {
+public class Casual extends Monkey implements Player {
+    public Casual(Random generator, AllWords words, final double ability) {
         super(generator, words, ability);
     }
 
 
-    public CasualPlayer(Random generator, AllWords words) {
+    public Casual(Random generator, AllWords words) {
         super(generator, words, .6);
     }
 

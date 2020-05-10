@@ -2,23 +2,15 @@ package com.kvitkov.gameofcities;
 
 import org.jetbrains.annotations.NotNull;
 
-public class Word {
+public class Word extends WordSignature {
     @NotNull
     public final String value;
-    public final char first;
-    public final char last;
-    @NotNull
-    public final String meaning;
-    public final int signature;
     public final int hash;
 
 
     public Word(@NotNull final String value) {
+        super(value.charAt(0), Utility.getLastLetter(value));
         this.value = value;
-        this.first = value.charAt(0);
-        this.last = Utility.getLastLetter(value);
-        this.meaning = "" + first + last;
-        this.signature = last << 16 + first;
         this.hash = this.value.hashCode();
     }
 
