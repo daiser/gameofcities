@@ -13,7 +13,7 @@ public class Casual extends Monkey implements Player {
 
 
     public Casual(Random generator, AllWords words) {
-        super(generator, words, .6);
+        this(generator, words, .6);
     }
 
 
