@@ -7,9 +7,21 @@ public class WordSignature {
 
 
     public WordSignature(char firstLetter, char lastLetter) {
-        this.first = firstLetter;
-        this.last = lastLetter;
-        this.code = first << 16 + last;
+        this.first = subst(firstLetter);
+        this.last = subst(lastLetter);
+        this.code = (first << 16) + last;
+    }
+
+
+    private static char subst(char in) {
+        switch (in) {
+            case 'Й':
+                return 'И';
+            case 'Ё':
+                return 'Е';
+            default:
+                return in;
+        }
     }
 
 

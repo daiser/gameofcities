@@ -3,7 +3,7 @@ package com.kvitkov.gameofcities;
 import com.kvitkov.gameofcities.ai.Casual;
 import com.kvitkov.gameofcities.ai.God;
 import com.kvitkov.gameofcities.ai.Monkey;
-import com.kvitkov.gameofcities.contracts.AllWords;
+import com.kvitkov.gameofcities.contracts.GameWordsSet;
 import com.kvitkov.gameofcities.contracts.Player;
 
 import java.io.IOException;
@@ -18,19 +18,9 @@ public class Main {
         System.out.println("Seed #" + seed);
 
         try {
-//            AllWords allWords = new FileDictionary("s:\\tmp\\cities.txt");
-            AllWords allWords = new FileDictionary("/home/daiser/tmp/abcd.txt");
-//            AllWords allWords = new FileDictionary("s:\\tmp\\abcde.txt");
-//            Dictionary allWords = new DbDictionary();
+            GameWordsSet allWords = new FileDictionary("data/cities.txt");
 
-            Player winner = new Game().play(new Monkey(rnd, allWords),
-                                            new Casual(rnd, allWords),
-                                            new Monkey(rnd, allWords),
-                                            new Casual(rnd, allWords),
-//                                            new Monkey(rnd, allWords, 0.5),
-//                                            new Monkey(rnd, allWords),
-//                                            new CasualPlayer(rnd, allWords),
-                                            new God(rnd, allWords));
+            Player winner = new Game().play(new Monkey(rnd, allWords), new Casual(rnd, allWords));
             System.out.println("GAME OVER!");
             System.out.println("Winner: " + winner);
         } catch (IOException iox) {

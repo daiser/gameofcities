@@ -1,7 +1,7 @@
 package com.kvitkov.gameofcities.ai;
 
 import com.kvitkov.gameofcities.*;
-import com.kvitkov.gameofcities.contracts.AllWords;
+import com.kvitkov.gameofcities.contracts.GameWordsSet;
 import com.kvitkov.gameofcities.contracts.Player;
 import org.jetbrains.annotations.NotNull;
 
@@ -17,21 +17,16 @@ public class God extends Monkey implements Player {
     private UsedWords usedWords;
 
 
-    public God(Random generator, AllWords words, final double ability) {
-        super(generator, words, ability);
-    }
-
-
-    public God(Random generator, AllWords words) {
-        this(generator, words, 1);
+    public God(Random generator, GameWordsSet words) {
+        super(generator, words, 1);
     }
 
 
     @Override
-    public UsedWords.LegitMove takeTurn(Character startsWith, UsedWords usedWords, final int numberOfPlayers) throws
+    public UsedWords.LegitMove takeTurn(Character firstLetter, UsedWords usedWords, final int numberOfPlayers) throws
             GiveUpException {
         this.usedWords = usedWords;
-        List<Word> possibleMoves = getPossibleMoves(startsWith, usedWords);
+        List<Word> possibleMoves = dictionary.selectExcluding(firstLetter, usedWords);
         if (possibleMoves.size() == 0) throw new GiveUpException(this);
 
         ArrayList<Word> bestMoves = new ArrayList<>();
@@ -106,9 +101,10 @@ public class God extends Monkey implements Player {
 
 
         void climb() {
-            List<Word> moves = getPossibleMoves(word.last, usedWords).stream()
-                                                                     .filter(word -> !contains(word))
-                                                                     .collect(Collectors.toList());
+            List<Word> moves = dictionary.selectExcluding(word.last, usedWords)
+                                         .stream()
+                                         .filter(word -> !contains(word))
+                                         .collect(Collectors.toList());
             if (moves.size() == 0) {
                 root.leaf(level);
             } else {

@@ -1,12 +1,13 @@
 package com.kvitkov.gameofcities;
 
-import com.kvitkov.gameofcities.contracts.AllWords;
+import com.kvitkov.gameofcities.contracts.GameWordsSet;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.*;
 import java.util.HashSet;
 import java.util.Iterator;
 
-public class FileDictionary implements AllWords {
+public class FileDictionary implements GameWordsSet {
     private final String fileName;
     private final HashSet<Word> words;
 
@@ -35,7 +36,7 @@ public class FileDictionary implements AllWords {
     }
 
 
-    public void save(Word newWord) {
+    public void save(@NotNull Word newWord) {
         if (contains(newWord)) return;
         try {
             BufferedWriter bw = new BufferedWriter(new FileWriter(fileName, true));

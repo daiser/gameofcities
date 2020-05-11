@@ -1,10 +1,12 @@
 package com.kvitkov.gameofcities;
 
+import com.kvitkov.gameofcities.contracts.Dictionary;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashSet;
+import java.util.Iterator;
 
-public class UsedWords {
+public class UsedWords implements Dictionary {
     private final HashSet<Word> usedWords = new HashSet<>();
 
 
@@ -31,6 +33,13 @@ public class UsedWords {
         } catch (IllegalStateException isx) {
             throw new IllegalSymbolsException();
         }
+    }
+
+
+    @NotNull
+    @Override
+    public Iterator<Word> iterator() {
+        return usedWords.iterator();
     }
 
 

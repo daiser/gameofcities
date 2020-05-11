@@ -9,9 +9,17 @@ public class Word extends WordSignature {
 
 
     public Word(@NotNull final String value) {
-        super(value.charAt(0), Utility.getLastLetter(value));
+        super(value.charAt(0), getLastLetter(value));
         this.value = value;
         this.hash = this.value.hashCode();
+    }
+
+
+    public static Character getLastLetter(String word) {
+        if (word.length() == 0) throw new IllegalStateException();
+        char lastChar = word.charAt(word.length() - 1);
+        if (lastChar == 'Ь' || lastChar == 'Ъ') return getLastLetter(word.substring(0, word.length() - 1));
+        return lastChar;
     }
 
 
@@ -32,6 +40,6 @@ public class Word extends WordSignature {
 
     @Override
     public String toString() {
-        return "Word{" + value + "}";
+        return String.format("%s   {%c%c,%d}", value, first, last, code);
     }
 }

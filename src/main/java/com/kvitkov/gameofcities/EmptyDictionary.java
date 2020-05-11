@@ -1,11 +1,12 @@
 package com.kvitkov.gameofcities;
 
-import com.kvitkov.gameofcities.contracts.AllWords;
+import com.kvitkov.gameofcities.contracts.GameWordsSet;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
 import java.util.Iterator;
 
-public class EmptyDictionary implements AllWords {
+public class EmptyDictionary implements GameWordsSet {
     public boolean contains(Word word) {
         return false;
     }
@@ -16,5 +17,5 @@ public class EmptyDictionary implements AllWords {
     }
 
 
-    public void save(Word newWord) {}
+    public void save(@NotNull Word newWord) {}
 }

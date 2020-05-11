@@ -11,7 +11,6 @@ public class WordTest {
         assertEquals("МОСКВА", word.value);
         assertEquals('М', word.first);
         assertEquals('А', word.last);
-        assertEquals("МА", word.meaning);
     }
 
 
@@ -20,8 +19,22 @@ public class WordTest {
         Word w1 = new Word("МОСКВА");
         Word w2 = new Word("МАСЛОВКА");
 
-        assertEquals(w1.meaning, w2.meaning);
-        assertEquals(w1.signature, w2.signature);
+        assertEquals(w1.code, w2.code);
         assertNotEquals(w1, w2);
+    }
+
+
+    @Test
+    public void testLastLetter() {
+        assertEquals('А', (char) Word.getLastLetter("МОСКВА"));
+        assertEquals('Н', (char) Word.getLastLetter("КУРГАН"));
+        assertEquals('Н', (char) Word.getLastLetter("КАЗАНЬ"));
+        assertEquals('Н', (char) Word.getLastLetter("КАЗАНЬЬЬЬЬЬ"));
+    }
+
+
+    @Test(expected = IllegalStateException.class)
+    public void testLastLetterInvalidInput() {
+        Word.getLastLetter("ЬЬЬЬЬЬЬЬЬ");
     }
 }

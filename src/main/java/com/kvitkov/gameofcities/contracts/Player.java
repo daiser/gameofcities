@@ -5,6 +5,6 @@ import com.kvitkov.gameofcities.UsedWords;
 
 public interface Player {
     int getId();
-    UsedWords.LegitMove takeTurn(Character startsWith, final UsedWords usedWords, final int playersNumber) throws
+    UsedWords.LegitMove takeTurn(Character firstLetter, final UsedWords usedWords, final int playersNumber) throws
             GiveUpException;
 }

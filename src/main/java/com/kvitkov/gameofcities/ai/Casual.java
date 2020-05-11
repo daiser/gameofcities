@@ -1,18 +1,20 @@
 package com.kvitkov.gameofcities.ai;
 
 import com.kvitkov.gameofcities.*;
-import com.kvitkov.gameofcities.contracts.AllWords;
+import com.kvitkov.gameofcities.contracts.GameWordsSet;
 import com.kvitkov.gameofcities.contracts.Player;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 public class Casual extends Monkey implements Player {
-    public Casual(Random generator, AllWords words, final double ability) {
+    public Casual(Random generator, GameWordsSet words, final double ability) {
         super(generator, words, ability);
     }
 
 
-    public Casual(Random generator, AllWords words) {
+    public Casual(Random generator, GameWordsSet words) {
         this(generator, words, .6);
     }
 
@@ -20,33 +22,26 @@ public class Casual extends Monkey implements Player {
     @Override
     public UsedWords.LegitMove takeTurn(Character firstLetter, UsedWords usedWords, final int ignored) throws
             GiveUpException {
-        List<Word> allPossibleMoves = getPossibleMoves(firstLetter, usedWords);
-        if (allPossibleMoves.size() == 0) throw new GiveUpException(this);
+        List<Word> possibleMoves = dictionary.selectExcluding(firstLetter, usedWords);
+        if (possibleMoves.size() == 0) throw new GiveUpException(this);
 
-        HashMap<Character, Integer> letterScores = new HashMap<>();
-        for (Word possibleMove : allPossibleMoves) {
-            char lastLetter = possibleMove.last;
-            if (letterScores.containsKey(lastLetter)) continue;
-            letterScores.put(lastLetter,
-                             getPossibleMoves(lastLetter, usedWords).size() -
-                             (firstLetter != null && firstLetter.equals(lastLetter) ? 1 : 0));
-//            letterScores.put(lastLetter, getPossibleMoves(lastLetter, usedWords).size());
-        }
-        int bestScore = Collections.min(letterScores.values());
-
+        int minScore = Integer.MAX_VALUE;
         ArrayList<Word> bestMoves = new ArrayList<>();
-        for (Map.Entry<Character, Integer> letterScore : letterScores.entrySet()) {
-            if (letterScore.getValue() != bestScore) continue;
-            for (Word possibleMove : allPossibleMoves) {
-                if (!letterScore.getKey().equals(possibleMove.last)) continue;
-                bestMoves.add(possibleMove);
+        for (Word possibleMove : possibleMoves) {
+            int score = dictionary.selectExcluding(possibleMove.last, usedWords).size() -
+                        (firstLetter != null && firstLetter.equals(possibleMove.last) ? 1 : 0);
+            if (score > minScore) continue;
+            if (score < minScore) {
+                minScore = score;
+                bestMoves.clear();
             }
+            bestMoves.add(possibleMove);
         }
 
         try {
             return usedWords.check(bestMoves.get(generator.nextInt(bestMoves.size())));
         } catch (IllegalMoveException imx) {
-            throw new RuntimeException("Код писала обезъяна");
+            throw new DeveloperException(imx);
         }
     }
 

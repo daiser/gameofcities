@@ -1,12 +1,12 @@
 package com.kvitkov.gameofcities;
 
-import com.kvitkov.gameofcities.contracts.AllWords;
+import com.kvitkov.gameofcities.contracts.GameWordsSet;
 import org.jetbrains.annotations.NotNull;
 
 import java.sql.*;
 import java.util.Iterator;
 
-public class DbDictionary implements AllWords, AutoCloseable {
+public class DbDictionary implements GameWordsSet, AutoCloseable {
     private final Connection connection;
     private final PreparedStatement stContains;
     private final PreparedStatement stSave;
