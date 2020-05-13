@@ -29,9 +29,11 @@ public class Game implements com.kvitkov.gameofcities.contracts.Game {
                     return activePlayer;
                 }
                 try {
-                    UsedWords.LegitMove legitMove = activePlayer.takeTurn(lastLetter,
-                                                                          usedWords,
-                                                                          players.length - losers.size());
+                    UsedWords.LegitMove legitMove = activePlayer.takeTurn(
+                            lastLetter,
+                            usedWords,
+                            players.length - losers.size()
+                    );
                     System.out.println(activePlayer + ": " + legitMove.value);
                     usedWords.add(legitMove);
                     lastLetter = legitMove.nextLetter;

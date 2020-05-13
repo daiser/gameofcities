@@ -102,9 +102,9 @@ public class God extends Monkey implements Player {
 
         void climb() {
             List<Word> moves = dictionary.selectExcluding(word.last, usedWords)
-                                         .stream()
-                                         .filter(word -> !contains(word))
-                                         .collect(Collectors.toList());
+                    .stream()
+                    .filter(word -> !contains(word))
+                    .collect(Collectors.toList());
             if (moves.size() == 0) {
                 root.leaf(level);
             } else {

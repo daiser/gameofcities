@@ -1,7 +1,6 @@
 package com.kvitkov.gameofcities;
 
 import com.kvitkov.gameofcities.ai.Casual;
-import com.kvitkov.gameofcities.ai.God;
 import com.kvitkov.gameofcities.ai.Monkey;
 import com.kvitkov.gameofcities.contracts.GameWordsSet;
 import com.kvitkov.gameofcities.contracts.Player;
